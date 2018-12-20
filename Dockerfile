@@ -11,7 +11,8 @@ RUN apt-get update && \
 	curl -o bedrock.zip https://minecraft.azureedge.net/bin-linux/bedrock-server-1.8.0.24.zip && \
 	unzip bedrock.zip -d bedrock && \
 	useradd -d /opt/bedrock -M -U bedrock && \
-	mv /tmp/bedrock /opt/
+	mv /tmp/bedrock /opt/ && \
+	mkdir /opt/bedrock/worlds
 COPY bin/bedrock-entrypoint.sh /opt/bedrock
 COPY config/* /opt/bedrock
 RUN	chown -R bedrock:bedrock /opt/bedrock
