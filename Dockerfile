@@ -14,7 +14,7 @@ RUN apt-get update && \
 	mv /tmp/bedrock /opt/ && \
 	mkdir /opt/bedrock/worlds
 COPY bin/bedrock-entrypoint.sh /opt/bedrock
-COPY config/* /opt/bedrock
+COPY config/* /opt/bedrock/
 RUN	chown -R bedrock:bedrock /opt/bedrock
 WORKDIR /opt/bedrock
 EXPOSE $BEDROCK_IPV4_PORT $BEDROCK_IPV6_PORT
