@@ -1,9 +1,7 @@
 FROM ubuntu
 ENV BEDROCK_VERSION 1.11.2.1
 ARG BEDROCK_IPV4_PORT=19132
-ARG BEDROCK_IPV6_PORT=19133
-ENV BEDROCK_IPV4_PORT=${BEDROCK_IPV4_PORT:-19132} \
-	BEDROCK_IPV6_PORT=${BEDROCK_IPV6_PORT:-19133}
+ENV BEDROCK_IPV4_PORT=${BEDROCK_IPV4_PORT:-19132}
 WORKDIR /tmp
 RUN apt-get update && \
 	apt-get -y upgrade && \
@@ -17,9 +15,8 @@ COPY bin/bedrock-entrypoint.sh /opt/bedrock
 COPY config/* /opt/bedrock/
 RUN	chown -R bedrock:bedrock /opt/bedrock
 WORKDIR /opt/bedrock
-EXPOSE $BEDROCK_IPV4_PORT $BEDROCK_IPV6_PORT
+EXPOSE $BEDROCK_IPV4_PORT/udp
 VOLUME /opt/bedrock/worlds
 USER bedrock
-RUN sed -i 's/\(server-port=\)[[:print:]]*/\1'"$BEDROCK_IPV4_PORT"'/g' server.properties && \
-	sed -i 's/\(server-portv6=\)[[:print:]]*/\1'"$BEDROCK_IPV6_PORT"'/g' server.properties
+RUN sed -i 's/\(server-port=\)[[:print:]]*/\1'"$BEDROCK_IPV4_PORT"'/g' server.properties
 ENTRYPOINT ["/opt/bedrock/bedrock-entrypoint.sh"]
