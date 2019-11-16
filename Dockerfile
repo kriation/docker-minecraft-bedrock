@@ -1,12 +1,12 @@
 FROM ubuntu
-ENV BEDROCK_VERSION 1.11.2.1
+ENV BEDROCK_VERSION 1.13.2.0
 ARG BEDROCK_IPV4_PORT=19132
 ENV BEDROCK_IPV4_PORT=${BEDROCK_IPV4_PORT:-19132}
 WORKDIR /tmp
 RUN apt-get update && \
 	apt-get -y upgrade && \
 	apt-get -y install curl unzip && \
-	curl -o bedrock.zip https://minecraft.azureedge.net/bin-linux/bedrock-server-1.11.2.1.zip && \
+	curl -o bedrock.zip https://minecraft.azureedge.net/bin-linux/bedrock-server-1.13.2.0.zip && \
 	unzip bedrock.zip -d bedrock && \
 	useradd -d /opt/bedrock -M -U bedrock && \
 	mv /tmp/bedrock /opt/ && \
