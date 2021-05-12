@@ -46,14 +46,16 @@ ENV BEDROCK_VERSION=${BEDROCK_VERSION} \
 WORKDIR /tmp
 RUN apt-get update && \
 	apt-get -y install curl unzip && \
-	curl -L https://minecraft.azureedge.net/bin-linux/bedrock-server-${BEDROCK_VERSION}.zip -o bedrock.zip && \
+	curl -L https://minecraft.azureedge.net/bin-linux/bedrock-server-${BEDROCK_VERSION}.zip \
+  -o bedrock.zip && \
 	unzip bedrock.zip -d bedrock && \
 	useradd -d /opt/bedrock -M -U bedrock && \
 	mv /tmp/bedrock /opt/ && \
 	mkdir /opt/bedrock/worlds
 COPY bin/bedrock-entrypoint.sh /opt/bedrock
 COPY config/* /opt/bedrock/
-RUN	chown -R bedrock:bedrock /opt/bedrock
+RUN chown -R bedrock:bedrock /opt/bedrock && \
+  chmod +x /opt/bedrock/bedrock_server
 WORKDIR /opt/bedrock
 EXPOSE $BEDROCK_IPV4_PORT/udp
 VOLUME /opt/bedrock/worlds
