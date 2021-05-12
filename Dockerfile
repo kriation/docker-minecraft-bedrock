@@ -60,5 +60,21 @@ WORKDIR /opt/bedrock
 EXPOSE $BEDROCK_IPV4_PORT/udp
 VOLUME /opt/bedrock/worlds
 USER bedrock
-RUN sed -i 's/\(server-port=\)[[:print:]]*/\1'"$BEDROCK_IPV4_PORT"'/g' server.properties
+RUN sed -i 's/\(server-name=\)[[:print:]]*/\1'"$BEDROCK_SERVER_NAME"'/g' server.properties && \
+  sed -i 's/\(gamemode=\)[[:print:]]*/\1'"$BEDROCK_GAMEMODE"'/g' server.properties && \
+  sed -i 's/\(difficulty=\)[[:print:]]*/\1'"$BEDROCK_DIFFICULTY"'/g' server.properties && \
+  sed -i 's/\(allow-cheats=\)[[:print:]]*/\1'"$BEDROCK_CHEATS"'/g' server.properties && \
+  sed -i 's/\(max-players=\)[[:print:]]*/\1'"$BEDROCK_MAXPLAYERS"'/g' server.properties && \
+  sed -i 's/\(online-mode=\)[[:print:]]*/\1'"$BEDROCK_ONLINE"'/g' server.properties && \
+  sed -i 's/\(white-list=\)[[:print:]]*/\1'"$BEDROCK_WHITELIST"'/g' server.properties && \
+  sed -i 's/\(server-port=\)[[:print:]]*/\1'"$BEDROCK_IPV4_PORT"'/g' server.properties && \
+  sed -i 's/\(view-distance=\)[[:print:]]*/\1'"$BEDROCK_VIEWDIST"'/g' server.properties && \
+  sed -i 's/\(tick-distance=\)[[:print:]]*/\1'"$BEDROCK_TICKDIST"'/g' server.properties && \
+  sed -i 's/\(player-idle-timeout=\)[[:print:]]*/\1'"$BEDROCK_PLAYERTO"'/g' server.properties && \
+  sed -i 's/\(max-threads=\)[[:print:]]*/\1'"$BEDROCK_MAXTHREADS"'/g' server.properties && \
+  sed -i 's/\(level-name=\)[[:print:]]*/\1'"$BEDROCK_LEVELNAME"'/g' server.properties && \
+  sed -i 's/\(level-seed=\)[[:print:]]*/\1'"$BEDROCK_LEVELSEED"'/g' server.properties && \
+  sed -i 's/\(default-player-permission-level=\)[[:print:]]*/\1'"$BEDROCK_DEFAULTPERM"'/g' server.properties && \
+  sed -i 's/\(texturepack-required=\)[[:print:]]*/\1'"$BEDROCK_TEXTUREPACK"'/g' server.properties
+
 ENTRYPOINT ["/opt/bedrock/bedrock-entrypoint.sh"]
