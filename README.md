@@ -1,4 +1,4 @@
-# Minecraft Bedrock Ubuntu Container
+# Minecraft Bedrock on Ubuntu
 This repository contains the required artifacts to build a Minecraft Bedrock
 container image that is designed to run using container orchestration best
 practices. By design, the entrypoint script tests for the existance of container
