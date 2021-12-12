@@ -1,6 +1,4 @@
-FROM ubuntu:latest
-LABEL maintainer="armen@kriation.com"
-ARG BUILD_DATE
+FROM ubuntu:latest as bedrock-builder
 ARG BEDROCK_VERSION
 ARG BEDROCK_SERVER_NAME="Dedicated Server"
 ARG BEDROCK_GAMEMODE=survival
@@ -18,14 +16,6 @@ ARG BEDROCK_LEVELNAME="Bedrock Level"
 ARG BEDROCK_LEVELSEED
 ARG BEDROCK_DEFAULTPERM=member
 ARG BEDROCK_TEXTUREPACK=false
-LABEL org.label-schema.build-date=$BUILD_DATE \
-  org.label-schema.name="Minecraft Bedrock Server" \
-  org.label-schema.version=$BEDROCK_VERSION \
-  org.label-schema.url="https://github.com/kriation/minecraft-bedrock" \
-  org.opencontainers.image.created=$BUILD_DATE \
-  org.opencontainers.image.title="Minecraft Bedrock Server" \
-  org.opencontainers.image.version=$BEDROCK_VERSION \
-  org.opencontainers.image.url="https://github.com/kriation/minecraft-bedrock"
 ENV BEDROCK_VERSION=${BEDROCK_VERSION} \
 	BEDROCK_SERVER_NAME=${BEDROCK_SERVER_NAME} \
 	BEDROCK_GAMEMODE=${BEDROCK_GAMEMODE} \
@@ -78,3 +68,20 @@ RUN sed -i 's/\(server-name=\)[[:print:]]*/\1'"$BEDROCK_SERVER_NAME"'/g' server.
   sed -i 's/\(texturepack-required=\)[[:print:]]*/\1'"$BEDROCK_TEXTUREPACK"'/g' server.properties
 
 ENTRYPOINT ["/opt/bedrock/bedrock-entrypoint.sh"]
+
+FROM bedrock-builder
+ARG BUILD_DATE
+ARG BEDROCK_VERSION
+LABEL maintainer="armen@kriation.com" \
+  org.label-schema.build-date=$BUILD_DATE \
+  org.label-schema.license="GPLv2" \
+  org.label-schema.name="Minecraft Bedrock Server" \
+  org.label-schema.version="$BEDROCK_VERSION" \
+  org.label-schema.vendor="armen@kriation.com" \
+  org.label-schema.url="https://github.com/kriation/minecraft-bedrock" \
+  org.opencontainers.image.created=$BUILD_DATE \
+  org.opencontainers.image.licenses="GPL-2.0-only" \
+  org.opencontainers.image.title="Minecraft Bedrock Server" \
+  org.opencontainers.image.version="$BEDROCK_VERSION" \
+  org.opencontainers.image.vendor="armen@kriation.com" \
+  org.opencontainers.image.url="https://github.com/kriation/minecraft-bedrock"
